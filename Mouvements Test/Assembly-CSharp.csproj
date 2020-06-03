@@ -47,7 +47,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Prefabs\PlayerControls.cs" />
+     <Compile Include="Assets\Prefabs\Player\Input System\PlayerControls.cs" />
      <Compile Include="Assets\Prefabs\Player\PlayerController.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/2020.2.0a11/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

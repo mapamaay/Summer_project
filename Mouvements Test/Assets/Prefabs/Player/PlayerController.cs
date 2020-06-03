@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     //Controller variables//
-    PlayerControls controls;
     public CharacterController controller;
 
     //Mouvement variables//
@@ -21,19 +20,15 @@ public class PlayerController : MonoBehaviour
     public float turnSmooth = 0.1f;
     float turnSmoothVelocity;
     public float joystickSensibility = 0.1f;
-
-    private void Awake()
-    {
-        //Controller setup//
-        controls = new PlayerControls();
-
-        controls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Move.canceled += ctx => move = Vector2.zero;
-    }
-
-    private void Update()
+   
+    private void OnMove(InputValue LS)
     {
         //Get joystick direction//
+        move = LS.Get<Vector2>();
+    }
+    private void Update()
+    {
+        //Set direction//
         Vector3 direction = new Vector3(-move.x, 0f, -move.y);
         direction = Mathf.Clamp(direction.magnitude, 0f, 1f) * direction.normalized;
 
@@ -65,14 +60,4 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //Disable controller if player object is disabled//
-    private void OnEnable()
-    {
-        controls.Gameplay.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controls.Gameplay.Disable();
-    }
 }
