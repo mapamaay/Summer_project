@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
 
     //Mouvement variables//
-    Vector2 move;
+    Vector2 stickInput;
     public float moveSpeed = 3;
 
     //Physics variables//
@@ -19,17 +19,17 @@ public class PlayerController : MonoBehaviour
     //Smoothing variables//
     public float turnSmooth = 0.1f;
     float turnSmoothVelocity;
-    public float joystickSensibility = 0.1f;
+    public float joystickDeadzone = 0.1f;
    
     private void OnMove(InputValue LS)
     {
         //Get joystick direction//
-        move = LS.Get<Vector2>();
+        stickInput = LS.Get<Vector2>();
     }
     private void Update()
     {
         //Set direction//
-        Vector3 direction = new Vector3(-move.x, 0f, -move.y);
+        Vector3 direction = new Vector3(-stickInput.x, 0f, -stickInput.y);
         direction = Mathf.Clamp(direction.magnitude, 0f, 1f) * direction.normalized;
 
         //Gravity//
@@ -47,7 +47,12 @@ public class PlayerController : MonoBehaviour
         }
 
         //Move if joystick is pushed far enough//
-        if (move.magnitude >= joystickSensibility) 
+        if (stickInput.magnitude<joystickDeadzone)
+        {
+            stickInput = Vector2.zero;
+        }
+
+        else
         {
             //Turn//
             float lookAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
@@ -55,7 +60,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
 
             //Move//
-            controller.Move(direction * moveSpeed * Time.deltaTime);
+            controller.Move(direction * moveSpeed * Time.deltaTime * ((stickInput.magnitude - joystickDeadzone) / (1 - joystickDeadzone)));
         }
 
     }
