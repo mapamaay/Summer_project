@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public float turnSmooth = 0.1f;
     float turnSmoothVelocity;
     public float joystickDeadzone = 0.1f;
-   
+
     private void OnMove(InputValue LS)
     {
         //Get joystick direction//
